@@ -28,7 +28,7 @@ The FGID kinship software is an application specifically designed to operate in 
 __Because our FGID kinship software is intended to be utilized in conjunction with the FGID Microhaplotype kit as a MH panel, we have seperated the usage into two parts.__
 
 ### Part1: Acquisition of Genotyping Data for 232 MH loci
-1. Raw fastq files are generated after sequencing samples with the FGID Microhaplotye kit. It is recommended to use [DNBSEQ G99 platform](https://en.mgitech.cn/Home/Products/reagents_info/id/59.html).
+1. Raw fastq files are generated after sequencing samples with the __FGID Microhaplotye kit__. It is recommended to use [DNBSEQ G99 platform](https://en.mgitech.cn/Home/Products/reagents_info/id/59.html).
 2. Clean fastq files are generated after adapter trimming and quality control. It is recommended to use [SOAPnuke](https://github.com/BGI-flexlab/SOAPnuke), and the parameters are recommended as follows: `SOAPnuke filter --nRate 0.1 --qualRate 0.5 --lowQual 12 --qualSys 2 --outQualSys 2 --minReadLen 30 --adaMis 2 --ada_trim -f AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA --fq1 test.fq.gz --outDir outdir --cleanFq1 clean_test.fq.gz`
 3. `.bam` files are generated after aligning the cleaned data to the [hg38](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001405.40/) using [bwa](https://github.com/lh3/bwa), with `bwa mem` as the recommended alignment algorithm.
 4. Genotyping data for 232 MH loci is obtained using [MHTyper](https://github.com/wangle-ifs/MHTyper). The software [samtools](https://github.com/samtools/samtools) is needed for the script.
@@ -41,7 +41,7 @@ After the FGID Kinship Software is launched, please select the option for `Kinsh
 
 ![image](https://github.com/user-attachments/assets/c895caec-e77d-4e46-95c2-bad4eabdbdf0)
 
-Please refer to `example/result` for the kinship analysis results using real pedigree samples.
+__Please refer to `example/result` for the kinship analysis results using real pedigree samples.__
 
 The following files are required for the analysis:
 
