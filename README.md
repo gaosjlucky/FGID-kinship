@@ -29,10 +29,11 @@ __Because our FGID kinship software is intended to be utilized in conjunction wi
 
 ### Part1: Acquisition of Genotyping Data for 232 MH loci
 1. Raw fastq files are generated after sequencing samples with the FGID Microhaplotye kit. It is recommended to use [DNBSEQ G99 platform](https://en.mgitech.cn/Home/Products/reagents_info/id/59.html).
-2. Clean fastq files are generated after adapter trimming and quality control. It is recommended to use [SOAPnuke](https://github.com/BGI-flexlab/SOAPnuke), and the parameters are recommended as follows: `SOAPnuke filter --nRate 0.1 --adaMis 2 --lowQual 12 --qualSys 2 --outQualSys 2 --minReadLen 30 --ada_trim -f AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA`
+2. Clean fastq files are generated after adapter trimming and quality control. It is recommended to use [SOAPnuke](https://github.com/BGI-flexlab/SOAPnuke), and the parameters are recommended as follows: `SOAPnuke filter --nRate 0.1 --qualRate 0.5 --lowQual 12 --qualSys 2 --outQualSys 2 --minReadLen 30 --adaMis 2 --ada_trim -f AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA --fq1 test.fq.gz --outDir outdir --cleanFq1 clean_test.fq.gz`
 3. `.bam` files are generated after aligning the cleaned data to the [hg38](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001405.40/) using [bwa](https://github.com/lh3/bwa), with `bwa mem` as the recommended alignment algorithm.
-4. Genotyping data for 232 MH loci is obtained using [MHTyper](https://github.com/wangle-ifs/MHTyper).
-   - In this step, we have modified MHTyper to accommodate `.bam` files obtained from single-end (SE) sequencing. For more information, please refer to the script `WL.main-G2023012.pl`, which represents our modified version.
+4. Genotyping data for 232 MH loci is obtained using [MHTyper](https://github.com/wangle-ifs/MHTyper). The software [samtools](https://github.com/samtools/samtools) is needed for the script.
+   - In this step, we have modified MHTyper to accommodate `.bam` files obtained from single-end (SE) sequencing. For more information, please refer to the script `WL.main-G.pl`, which represents our modified version.
+   - The config files could be downloaded in `database` for MH calling using MHTyper. The usage is: `./WL.main-G.pl --pe 0 --bam test.bam --rs 232.rs.txt --amplicon 232.amplicon.txt --dbSNP 232.dbSNP.txt --outdir outdir --prefix test`.
 
 ### Part2: Conducting Kinship Analysis Using the FGID Kinship Software
 
@@ -40,11 +41,13 @@ After the FGID Kinship Software is launched, please select the option for `Kinsh
 
 ![image](https://github.com/user-attachments/assets/c895caec-e77d-4e46-95c2-bad4eabdbdf0)
 
+Please refer to `example/result` for the kinship analysis results using real pedigree samples.
+
 The following files are required for the analysis:
 
-- __Frequency File for `Frequency`__: This file should contain three columns of information: MH loci name, allele combination, and allele combination frequency. You could find the frequency file for Chinese Han Population in `database`.
-- __Sample Genotyping File for `Case`__: This file should include four columns of information: sample name, MH loci name, allele combination 1, and allele combination 2.
-- __Sample Genotyping File for `Data`__: This file should include four columns of information: sample name, MH loci name, allele combination 1, and allele combination 2.
+- __Frequency File for `Frequency`__: This file should contain three columns of information: MH loci name, allele combination, and allele combination frequency. You could find the frequency file for Chinese Han Population: `database/MH-232-freq.txt`.
+- __Sample Genotyping File for `Case`__: This file should include four columns of information: sample name, MH loci name, allele combination 1, and allele combination 2. You could find the example file `database/family.txt`.
+- __Sample Genotyping File for `Data`__: This file should include four columns of information: sample name, MH loci name, allele combination 1, and allele combination 2. You could find the example file `database/family.txt`.
 
 __Please note the following:__
 
@@ -57,10 +60,9 @@ Sample genotyping file example:
 - File paths must not contain spaces, parentheses, or other special characters.
 - __Sample Genotyping File for `Case`__ and __Sample Genotyping File for `Data`__ may contain identical samples.
 
-## Others
+### Others
 1. We have provided a script for stimulating data sets for testing. Please refer to `simulate` for more details.
-2. The Linux version for the FGID kinship software could be found in `bin`. You could use commond line to run our software in Linux system.
-3. The config files could be downloaded in `database` for MH calling using MHTyper. The usage is: `--rs 232.rs.txt --amplicon 232.amplicon.txt --dbSNP 232.dbSNP.txt`.
+2. The Linux version for the FGID kinship software could be found in `bin/FGILinux_MH`. You could use commond line to run our software in Linux system: `./FGILinux_MH --type kinship --freq MH-232-freq.txt case.txt data.txt --outdir outdir`
 
 ## Contributing
 
