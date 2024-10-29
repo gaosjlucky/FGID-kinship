@@ -29,7 +29,7 @@ __Because our FGID kinship software is intended to be utilized in conjunction wi
 
 ### Part1: Acquisition of Genotyping Data for 232 MH loci
 1. Raw fastq files are generated after sequencing samples with the FGID Microhaplotye kit. It is recommended to use [DNBSEQ G99 platform](https://en.mgitech.cn/Home/Products/reagents_info/id/59.html).
-2. Clean fastq files are generated after adapter trimming and quality control. It is recommended to use [SOAPnuke](https://github.com/BGI-flexlab/SOAPnuke), and the parameters are recommended as follows:
+2. Clean fastq files are generated after adapter trimming and quality control. It is recommended to use [SOAPnuke](https://github.com/BGI-flexlab/SOAPnuke), and the parameters are recommended as follows: `SOAPnuke filter --nRate 0.1 --adaMis 2 --lowQual 12 --qualSys 2 --outQualSys 2 --minReadLen 30 --ada_trim -f AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA`
 3. `.bam` files are generated after aligning the cleaned data to the [hg38](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001405.40/) using [bwa](https://github.com/lh3/bwa), with `bwa mem` as the recommended alignment algorithm.
 4. Genotyping data for 232 MH loci is obtained using [MHTyper](https://github.com/wangle-ifs/MHTyper).
    - In this step, we have modified MHTyper to accommodate `.bam` files obtained from single-end (SE) sequencing. For more information, please refer to the script `WL.main-G2023012.pl`, which represents our modified version.
